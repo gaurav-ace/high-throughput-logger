@@ -20,3 +20,42 @@ Application thread
    Disk I/O (blocking)
 
 
+output of benchmark (writing 10000 logs) : 
+Naive Logger Benchmark
+----------------------
+Logs written : 10000
+Time taken  : 0.27 seconds
+Logs/sec   : 36985
+
+
+phase 2 : async model : 
+
+Application threads
+        |
+        v
+  log() puts message
+        |
+        v
+   ┌────────────┐
+   │   Queue    │   (thread-safe)
+   └────────────┘
+        |
+        v
+  Logger thread
+        |
+        v
+      File I/O
+
+
+no blocking I/O
+log() is taking very little time as it is not accessing the disk. It writes to in-memory queue.
+
+one worker thread handles the  write part separately.
+
+Async Logger Benchmark
+----------------------
+Logs written : 10000
+Time taken  : 0.04 seconds     >>> almost 8 times faster
+Logs/sec   : 262850
+
+

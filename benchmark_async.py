@@ -1,8 +1,8 @@
-from naive_logger import NaiveLogger
+from async_logger import AsyncLogger
 import time
 
 def benchmark():
-    logger = NaiveLogger("naive.log")
+    logger = AsyncLogger("async.log")
 
     NUM_LOGS = 10000
 
@@ -13,9 +13,12 @@ def benchmark():
 
     end = time.time()
 
+    # Shutdown logger gracefully
+    logger.shutdown()
+    
     duration = end - start
 
-    print("Naive Logger Benchmark")
+    print("Async Logger Benchmark")
     print("----------------------")
     print(f"Logs written : {NUM_LOGS}")
     print(f"Time taken  : {duration:.2f} seconds")
